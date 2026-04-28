@@ -150,6 +150,9 @@ func processContentByType(msgType, content string) (string, error) {
 	case "text":
 		return content, nil
 
+	case "ring":
+		return content, nil
+
 	case "image":
 		// 图片必须是文件路径，读取并 base64 编码
 		if !media.FileExists(content) {
