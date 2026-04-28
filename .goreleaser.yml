@@ -1,0 +1,43 @@
+version: 1
+
+project_name: push-claw
+
+builds:
+  - id: push-claw
+    main: ./main.go
+    binary: push-claw
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -X github.com/jinwoll/push-claw-cli/cmd.version={{.Version}}
+      - -X github.com/jinwoll/push-claw-cli/cmd.commit={{.ShortCommit}}
+      - -X github.com/jinwoll/push-claw-cli/cmd.date={{.Date}}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: default
+    format: binary
+    # 与 install.sh / install.ps1 / upgrade 约定一致：amd64 → x86_64
+    name_template: 'push-claw-{{ .Os }}-{{ if eq .Arch "amd64" }}x86_64{{ else }}{{ .Arch }}{{ end }}'
+
+checksum:
+  name_template: "checksums.sha256"
+
+release:
+  github:
+    owner: jinwoll
+    name: push-claw-cli
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
