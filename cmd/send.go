@@ -95,7 +95,7 @@ var sendCmd = &cobra.Command{
 }
 
 func init() {
-	sendCmd.Flags().StringVarP(&sendType, "type", "t", "text", "消息类型：text / image")
+	sendCmd.Flags().StringVarP(&sendType, "type", "t", "text", "消息类型：text / image / urgent")
 	sendCmd.Flags().StringVarP(&sendLevel, "level", "l", "info", "消息级别：info / warning / error")
 	sendCmd.Flags().StringVarP(&sendGroup, "group", "g", "", "消息分组")
 	sendCmd.Flags().StringVarP(&sendURL, "url", "u", "", "关联外部链接")
@@ -150,7 +150,7 @@ func processContentByType(msgType, content string) (string, error) {
 	case "text":
 		return content, nil
 
-	case "ring":
+	case "urgent":
 		return content, nil
 
 	case "image":
